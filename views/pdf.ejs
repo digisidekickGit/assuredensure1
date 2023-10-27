@@ -1,0 +1,376 @@
+<% function convertTimeToIndianTimeZone(Time) { // Input time in UTC const
+myDate = String(Time).split("T")[0]; return ` ${myDate}`; } %>
+<% function formattedDate(date){
+
+  const dateObject = new Date(date);
+  const dateString = dateObject.toLocaleDateString("en-IN");
+  return dateString;
+} %>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Pdf</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      .pos-bill-com-box p {
+        margin: 0;
+      }
+      .marginDiv {
+        margin: "1rem";
+      }
+
+      .Heading {
+        background-color: green;
+        color: white;
+        display: flex;
+        height: 2.5rem;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+      }
+
+      .pos-details {
+        padding: 1rem;
+        gap: 10px;
+        display: flex;
+        justify-content: center;
+        min-height: 20vh;
+      }
+
+      .pos-address {
+        border: 1px solid gray;
+        width: 40%;
+        padding: 1rem;
+      }
+
+      .pos-account {
+        border: 1px solid gray;
+        width: 60%;
+        padding: 1rem;
+      }
+
+      .pos-account-data {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .table-Div {
+        padding-top: 1rem;
+      }
+      table {
+        zoom: 70%;
+      }
+
+      .pos-bill {
+        /* padding: .5rem;
+      gap: 10px; */
+        display: flex;
+        justify-content: center;
+        min-height: 20vh;
+        padding: 1rem;
+      }
+
+      .pos-bill-data1 {
+        width: 40%;
+        padding: 1rem;
+      }
+
+      .table-Div ul {
+        list-style: circle;
+      }
+
+      /* Style for the table */
+      .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+      }
+
+      /* Style for table headers (th) */
+      .styled-table th {
+        background-color: #007bff;
+        color: rgb(22, 22, 22); /* Header text color */
+        font-weight: bold; /* Bold font for header text */
+        padding: 10px; /* Padding around header text */
+        text-align: left; /* Align header text to the left */
+      }
+
+      /* Style for table cells (td) */
+      .styled-table td {
+        border: 1px solid #ccc; /* Border around cells */
+        padding: 8px; /* Padding around cell content */
+        text-align: left; /* Align cell content to the left */
+      }
+
+      /* Style for alternate rows (optional) */
+      .styled-table tbody tr:nth-child(even) {
+        background-color: #f9f9f9; /* Background color for even rows */
+      }
+      .bankDetails {
+        zoom: 70%;
+      }
+      .bankDetailsData {
+        display: flex;
+        justify-content: space-between;
+      }
+      .bankDetailsData p {
+        padding: 5px;
+        border: 1px solid gray;
+      }
+      .bankDetails div {
+        padding: 1rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container-fluid pos-bill-com-box marginDiv">
+      <div class="Heading mt-2">
+        <p>Statement - June, 2020</p>
+      </div>
+      <div class="pos-details">
+        <div class="pos-address">
+          <p>
+            <%= `${POS?.Salutation ?? ""} ${POS?.Name ?? ""} ${POS?.MiddleName
+            ?? ""} ${POS?.LastName ?? ""}` %>
+          </p>
+          <p><%= `${POS?.WDAddress ?? ""} ${POS?.WDCity ?? ""}` %></p>
+          <p><%= `${POS?.WDState ?? ""} - ${POS?.WDPincode ?? ""}` %></p>
+        </div>
+        <div class="pos-account">
+          <div class="pos-account-data">
+            <p>Tele RM:</p>
+            <p>
+              <%= `${POS?.ReportingTo?.Salutation ?? ""}
+              ${POS?.ReportingTo?.Name ?? ""} ${POS?.ReportingTo?.MiddleName ??
+              ""} ${POS?.ReportingTo?.LastName ?? ""}` %>
+            </p>
+          </div>
+         
+          <div class="pos-account-data">
+            <p>Payout Period:</p>
+            <p>1-June-2020 to 30-June-2020</p>
+          </div>
+          <div class="pos-account-data">
+            <p>Processing Date:</p>
+            <p ><%= formattedDate(ProcessingDate) %></p>
+          </div>
+          <div class="pos-account-data">
+            <p>GST No:</p>
+            <p><%= POS?.GSTINNumber %></p>
+          </div>
+          <div class="pos-account-data">
+            <p>PAN No:</p>
+            <p><%= POS?.PanNumber?.toUpperCase() %></p>
+          </div>
+
+          <div class="pos-account-data">
+            <p>IPOS Certification Date:</p>
+            <p>Jun 20, 2017</p>
+          </div>
+        </div>
+
+        <div></div>
+      </div>
+      <div class="Heading">
+        <p>Commission Calculations</p>
+      </div>
+      <div class="table-Div">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Product</th>
+              <th scope="col">Total Amount</th>
+              <th scope="col">Commissionable Amount</th>
+              <th scope="col">Payout</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Motor - June/2020</th>
+              <td>Rs. 29,666.00</td>
+              <td>Rs. 16,621.00</td>
+              <td>Rs. 2,659.36</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pos-bill">
+        <div class="pos-bill-data1"></div>
+        <div class="pos-account">
+          <div class="pos-account-data">
+            <p>Amount Payable (a):</p>
+            <p>Rs. 2,659.36</p>
+          </div>
+          <div class="pos-account-data">
+            <p>TDS - Base (b) @ 5% of Rs. 2,493.15</p>
+            <p>Rs. 93.49</p>
+          </div>
+          <div class="pos-account-data">
+            <p>TDS - ORC (c) @ 10% of Rs. 166.21</p>
+            <p>1Rs. 12.46</p>
+          </div>
+          <div class="pos-account-data">
+            <p>Amount Transferred = a - b - c</p>
+            <p>Rs. 2,553.40</p>
+          </div>
+        </div>
+      </div>
+      <div class="Heading">
+        <p>Outstanding/Recovery</p>
+      </div>
+      <div class="table-Div">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Base Amount</th>
+              <th scope="col">ORC Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Balance (till May, 2020 )</th>
+              <td>Rs. 0.31</td>
+              <td>Rs. -1,756.71</td>
+
+              <td>Rs. 2,659.36</td>
+            </tr>
+            <tr>
+              <th scope="row">Balance (as of now)</th>
+              <td>Rs. -0.04</td>
+              <td>Rs. -1,602.96</td>
+
+              <td>Rs. 2,659.36</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="Heading">
+        <p>Bank Transactions</p>
+      </div>
+      <p class="text-center p-2">(After TDS Deduction)</p>
+
+      <div class="bankDetails">
+        <div class="bankDetailsData">
+          <p>Date: July 10, 2020</p>
+          <p>Bank Ref. Num: CMS1536847909</p>
+          <p>Amount: Rs. 2,400.00</p>
+          <p>Remarks: Credit Successful</p>
+        </div>
+
+        <div class="bankDetailsData">
+          <p>Total Transferred Amount: Rs. 2,400.00</p>
+          <p>Total Recovery Amount: Rs. -1,603.00</p>
+        </div>
+      </div>
+      <div class="Heading mt-2">
+        <p>Transaction Details</p>
+      </div>
+      <p class="text-center p-2">June 2020</p>
+      <div class="table-Div">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">Reporting Date</th>
+              <th scope="col">Product Type</th>
+              <th scope="col">Identifier</th>
+              <th scope="col">Commissionable Amount</th>
+              <th scope="col">Percentage</th>
+              <th scope="col">Amount Payable</th>
+              <th scope="col">Remarks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (Data) { %> <% Data.forEach((data) => { %>
+            <tr>
+              <td><%= convertTimeToIndianTimeZone(data?.createdAt) %></td>
+              <td><%= data?.InsuranceType?.InsuranceType %></td>
+              <td><%= data?.VehicleNumber %></td>
+              <td>
+                <% data.BasedOn.split("+").forEach((ele) => { %> <% let isFlat =
+                ele === "FLAT" ? true : false; %> <% if (isFlat) { %>
+                <p>
+                  ₹ <%= data["Commission"]["AmountToPay" + ele] %> <%= ele %>
+                </p>
+                <% } else { %>
+                <p>₹ <%= data[ele + "Premium"] ?? "" %> <%= ele %></p>
+                <% } %> <% }); %>
+              </td>
+              <td>
+                <% data.BasedOn.split("+").forEach((ele) => { %> <% if (ele !==
+                "FLAT") { %>
+                <p>
+                  <%= data["Commission"]["CommissionToPay" + ele] ?? "" %> %
+                </p>
+                <% } %> <% }); %>
+              </td>
+              <td>₹ <%= data?.Commission?.TotalAmountToPay %></td>
+              <td><%= data?.Remark %></td>
+            </tr>
+            <% }); %> <% } %>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="Heading">
+        <p>Terms and Conditions</p>
+      </div>
+      <div class="table-Div">
+        <ul>
+          <li>
+            Only valid, successfully issued policies for the month in Renewbuy
+            system will be considered for the payout calculation.
+          </li>
+          <li>
+            Pending cases will flow over to subsequent month of its issuance in
+            Renewbuy system.
+          </li>
+          <li>
+            Any mismatch in payout calculation for the current month will be
+            adjusted in the next month respective product cycle.
+          </li>
+          <li>
+            Terms used : TW - Two wheeler, FW – Four wheeler Pvt Car, GCV –
+            Goods carrying vehicle, PCV – Passenger carrying vehicle, MISC-d –
+            Miscellaneous category vehicle, CV – Commercial vehicle, RPA - Road
+            protect accidental, SME - Corporate SME .
+          </li>
+          <li>TravAssured policies will not be part of this payout.</li>
+          <li>
+            For Payout or POS certification related queries, please contact your
+            Relationship Manager or follow the Call Manager option in your app.
+            You can also call at our partner helpline number.
+          </li>
+          <li>
+            For correction in bank details, please create Helpdesk ticket
+            through your App
+          </li>
+          <li>
+            Payout for Motor long term policies will be paid year on year basis
+            on that particular OD portion for the year.
+          </li>
+          <li>
+            For long term policies, slabs applicable as per that current year
+            will be applicable for computation of payout.
+          </li>
+        </ul>
+      </div>
+    </div>
+   
+  </body>
+</html>
