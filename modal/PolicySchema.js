@@ -39,11 +39,15 @@ const PolicySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    RSD: {
+    RSD: { // Risk Start Date
       type: String,
       required: true,
     },
-    RegistrationDate: {
+    RED: { // Risk End Date
+      type: String,
+      required: true,
+    },
+    RegistrationDate: { 
       type: String,
     },
     Commission: {

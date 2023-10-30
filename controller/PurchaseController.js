@@ -5,23 +5,27 @@ const { ObjectId } = require("mongodb");
 const { GST_ID_FOR_LEDGER } = require("../util/HardCodedDB");
 const getPurchase = async (req, res, next) => {
   try {
-    const { page = 1, limit = 3000, StartDate, EndDate } = req.query;
-
-    console.log({ StartDate, EndDate }, "StartDate,EndDate ");
+    const { page = 1, limit = 3000, StartDate, EndDate, POS } = req.query;
+    const que = {};
+    if (POS) {
+      que["CreditAccount"] = ObjectId(POS);
+    }
     const totalDocs = await PurchaseSchema.find({
-      EntryDate: {
-        $gte: StartDate,
-        $lte: EndDate,
+      createdAt: {
+        $gte: new Date(`${StartDate}T00:00:00.000+05:30`),
+        $lte: new Date(`${EndDate}T23:59:59.000+05:30`),
       },
+      ...que,
     }).countDocuments();
 
     const results = await PurchaseSchema.find({
-      EntryDate: {
-        $gte: StartDate,
-        $lte: EndDate,
+      createdAt: {
+        $gte: new Date(`${StartDate}T00:00:00.000+05:30`),
+        $lte: new Date(`${EndDate}T23:59:59.000+05:30`),
       },
+      ...que,
     })
-      .sort({ PurchaseCode: 1 })
+      .sort({ EnterDate: 1 })
       .skip((page - 1) * limit)
       .limit(limit)
       .populate({
@@ -531,7 +535,7 @@ const getGenerateReport = async (req, res, next) => {
     ]);
 
     const myArr = await Policy.reduce((acc, curr, index) => {
-      const DateData = curr?.createdAt.toISOString().slice(0, 10);
+      const DateData = curr?.createdAt.slice(0, 10);
       const col2 = [
         curr?.InsuranceCompany?.Name,
         curr?.InsuranceType?.InsuranceType,

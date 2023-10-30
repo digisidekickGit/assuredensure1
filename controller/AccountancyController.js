@@ -428,32 +428,6 @@ const reportOfTdsSheet = async (req, res, next) => {
         $unwind: "$oppositeLedger",
       },
     ]);
-    // const myNewData = await AccountancySchema.find({
-    //   RefNumber: { $ne: "OpeningBalance" },
-    // });
-
-    // console.log(myNewData.length,"myNewData");
-
-    // myNewData.forEach(async (data) => {
-    //  try {
-    // let MyAmount = data.DR - data.CR;
-    // const dataMy = await AccountancySchema.findByIdAndUpdate(data._id, {
-    //   Amount: MyAmount,
-    // });
-    //  } catch (error) {
-
-    //  }
-
-    //   console.log(dataMy, "dataMydataMy");
-    // });
-    // console.log(myNewData, "myNewData");
-
-    // const myNewData = await AccountancySchema.updateMany({},{
-    //   $unset:{
-    //     DR:1,
-    //     CR:1,
-    //   }
-    // })
 
     res.status(200).json({
       data: data,

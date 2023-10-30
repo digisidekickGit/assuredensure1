@@ -11,6 +11,10 @@ const RtoGroupCheckerSchema = new mongoose.Schema(
       require: true,
       // required: true,
     },
+    State: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "State",
+    },
     InsuranceCompany: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "InsuranceCompany",
@@ -22,6 +26,7 @@ const RtoGroupCheckerSchema = new mongoose.Schema(
       ref: "InsuranceType",
       require: true,
     },
+  
     ListOfRto: [{ type: mongoose.Schema.Types.ObjectId, ref: "RTO" }],
     ListOfRtoLog: [
       {

@@ -424,7 +424,6 @@ const db = async (req, res, next) => {
     //     { _id: doc._id, "Variant._id": doc.Variant._id },
     //     { $set: { "Variant.$.FuelType": "Diesel" } }
     //   );
-    //   console.log(mm, "check this one");
     // });
     return res.status(200).json({
       // data: data,

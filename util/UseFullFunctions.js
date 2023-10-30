@@ -22,8 +22,6 @@ const DeletedOpeningBalance = async ({ _id }) => {
       Ledger: ObjectId(_id),
       RefNumber: "OpeningBalance",
     });
-
-    console.log(log, "check is deleted or not");
   } catch (error) {}
 };
 

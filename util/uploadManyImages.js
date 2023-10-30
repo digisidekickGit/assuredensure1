@@ -59,6 +59,9 @@ const fileFilter = (req, file, cb) => {
 const uploadMany = multer({
   storage: storage,
   fileFilter: fileFilter,
+  limits: {
+    fileSize: 100000000 // max file size 1MB = 1000000 bytes
+},
 }).fields([
   { name: "profilePic", maxCount: 1 },
   { name: "panCard", maxCount: 1 },

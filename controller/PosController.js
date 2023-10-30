@@ -27,8 +27,6 @@ const getPos = async (req, res, next) => {
     // Pos.forEach(async (ele) => {
     //   let Opening = ele.OpeningBalance ?? 0;
     //   let myBalance = Opening * -1;
-    //   console.log(myBalance, "myBalance");
-
     //   await DeletedOpeningBalance({ _id: ele._id });
 
     //   await CreateOpeningBalance({
@@ -124,7 +122,6 @@ const putPos = async (req, res, next) => {
     Reference,
     ...allData
   } = req.body;
-  console.log(req.body, "check this one");
   let myImagesObj = {};
   if (req?.files) {
     const myImages = Object.keys(req.files);

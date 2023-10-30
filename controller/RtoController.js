@@ -49,7 +49,7 @@ const getRTO = async (req, res, next) => {
   }
 };
 const SelectBoxDropdown = async (req, res, next) => {
-  const { page = 1, limit = 100, inputData, State } = req.query;
+  const { page = 1, limit = 500, inputData, State } = req.query;
 
   let query = {};
   if (inputData) {
@@ -65,7 +65,7 @@ const SelectBoxDropdown = async (req, res, next) => {
   if (State) {
     query["State"] = ObjectId(State);
   }
-
+  console.log(query, "query");
   try {
     const data = await RTOSchema.aggregate([
       {

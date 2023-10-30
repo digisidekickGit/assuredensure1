@@ -16,7 +16,7 @@ const errorHandler = (err, req, res, next) => {
   } else if (err.name === "ValidationError") {
     // Extract validation errors and format them
     for (const field in err.errors) {
-      console.log(field, "fieldfieldfieldfield");
+  
       err.message = `${err.errors[field]}`;
     }
   }

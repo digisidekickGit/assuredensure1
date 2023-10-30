@@ -586,6 +586,7 @@ const putPolicy = async (req, res, next) => {
       }
     );
 
+    console.log("check this one");
 
     // await PolicySchema.updateMany(
     //   { IMTType: "NONE" },
@@ -1399,6 +1400,37 @@ const getActionPolicy = async (req, res, next) => {
   } catch (error) {
     return next(error);
   }
+};
+
+const CreateRED_Date = async () => {
+  await PolicySchema.updateMany(
+    // Specify the criteria for the documents you want to update
+    {},
+
+    // Use aggregation to calculate the new date 1 year after the existing RSD date
+    [
+      {
+        $set: {
+          RED: {
+            $dateToString: {
+              format: "%Y-%m-%d",
+              date: {
+                $add: [
+                  {
+                    $dateFromString: {
+                      dateString: "$RSD",
+                      format: "%Y-%m-%d",
+                    },
+                  },
+                  365 * 24 * 60 * 60 * 1000, // 365 days in milliseconds
+                ],
+              },
+            },
+          },
+        },
+      },
+    ]
+  );
 };
 
 module.exports = {

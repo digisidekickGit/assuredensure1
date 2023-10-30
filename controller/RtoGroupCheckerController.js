@@ -29,7 +29,6 @@ const getRtoGroupChecker = async (req, res, next) => {
         },
       ];
     }
-
     const totalDocs = await RtoGroupCheckerSchema.find({
       ...restData,
     }).countDocuments();

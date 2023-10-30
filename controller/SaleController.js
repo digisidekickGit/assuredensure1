@@ -454,8 +454,8 @@ const getGenerateReport = async (req, res, next) => {
           TPPremiumNumeric: { $toDouble: "$Policy.TPPremium" },
 
           NetPremiumNumeric: { $toDouble: "$Policy.NETPremium" },
-          TotalAmountToPay: {
-            $toDouble: "$Policy.Commission.TotalAmountToPay",
+          TotalPolicyProfit: {
+            $toDouble: "$Policy.Commission.TotalPolicyProfit",
           },
         },
       },
@@ -467,7 +467,7 @@ const getGenerateReport = async (req, res, next) => {
           NetPremium: { $sum: "$NetPremiumNumeric" },
           ODPremium: { $sum: "$ODPremiumNumeric" },
           TPPremium: { $sum: "$TPPremiumNumeric" },
-          Points: { $sum: "$TotalAmountToPay" },
+          Points: { $sum: "$TotalPolicyProfit" },
         },
       },
       {
@@ -516,19 +516,19 @@ const getGenerateReport = async (req, res, next) => {
 
       const col6 = ["", "", "", "", "", ""];
       const col7 = [curr?.PaymentMode?.TypeOfPaymentMode, curr?.VehicleNumber];
-      const col8 = [curr?.Commission?.TotalAmountToPay];
+      const col8 = [curr?.Commission?.TotalPolicyProfit];
       curr.BasedOn.split("+").forEach((element) => {
         if (element === "FLAT") {
-          col6[4] = curr["Commission"][`CommissionToPay${element}`];
+          col6[4] = curr["Commission"][`Reciveable${element}`];
         }
         if (element === "OD") {
-          col6[3] = curr["Commission"][`CommissionToPay${element}`] / 10 + "X";
+          col6[3] = curr["Commission"][`Reciveable${element}`] / 10 + "X";
         }
         if (element === "TP") {
-          col6[2] = curr["Commission"][`CommissionToPay${element}`] / 10 + "X";
+          col6[2] = curr["Commission"][`Reciveable${element}`] / 10 + "X";
         }
         if (element === "NET") {
-          col6[1] = curr["Commission"][`CommissionToPay${element}`] / 10 + "X";
+          col6[1] = curr["Commission"][`Reciveable${element}`] / 10 + "X";
         }
       });
 
@@ -648,7 +648,6 @@ const getIsSale = async (req, res, next) => {
           // YearOfManufacture: 0,
           // Variant: 0,
           RegistrationDate: 0,
-          NewPolicyCopy: 0,
           Broker: 0,
           Broker: 0,
           // MakeModal: 0,
@@ -685,7 +684,6 @@ const getIsSale = async (req, res, next) => {
           YearOfManufacture: 0,
           Variant: 0,
           RegistrationDate: 0,
-          NewPolicyCopy: 0,
           Broker: 0,
           Broker: 0,
           MakeModal: 0,
@@ -701,7 +699,7 @@ const getIsSale = async (req, res, next) => {
       {
         $group: {
           _id: null,
-          AmountToPay: { $sum: "$Commission.TotalAmountToPay" },
+          TotalPolicyProfit: { $sum: "$Commission.TotalPolicyProfit" },
         },
       },
     ]);
@@ -723,6 +721,7 @@ const getIsSale = async (req, res, next) => {
         select: { Name: 1 },
       },
     ]);
+    console.log(TotalAmount);
     res.status(200).json({
       success: true,
       data: SaleData,
